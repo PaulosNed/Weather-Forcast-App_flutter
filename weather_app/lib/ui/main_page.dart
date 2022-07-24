@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/bloc/weather_bloc.dart';
+import 'package:weather_app/bloc/weather_event.dart';
 
 class Feed extends StatelessWidget {
   const Feed({Key? key}) : super(key: key);
@@ -22,6 +25,7 @@ class Feed extends StatelessWidget {
                       prefixIcon: Icon(Icons.search),
                       hintText: "Enter city name",
                       contentPadding: EdgeInsets.all(8)),
+                  onSubmitted: (value) => BlocProvider.of<WeatherBloc>(context).add(Search(value)),
                 ),
               ),
               SizedBox(
