@@ -12,8 +12,10 @@ class RemoteProvider {
           'Content-Type': 'application/json; charset=UTF-8',
         });
     if (response.statusCode == 200) {
+      print("found!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
       return WeatherForecast.fromJson(jsonDecode(response.body));
     } else {
+      print("NOTTTTTTTTTTTTTTTTTTTTTT");
       throw Exception("Unable to find $cityName in list of cities");
     }
   }

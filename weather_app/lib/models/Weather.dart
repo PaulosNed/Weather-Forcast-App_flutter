@@ -3,36 +3,28 @@ class WeatherForecast {
   String? cod;
   double? message;
   int? cnt;
-  List<Lista>? lista;
+  List<Lista>? list;
 
-  WeatherForecast({this.city, this.cod, this.message, this.cnt, this.lista});
+  WeatherForecast({this.city, this.cod, this.message, this.cnt, this.list});
 
   factory WeatherForecast.fromJson(Map<String, dynamic> json) {
-    var city = json['city'] != null ? new City.fromJson(json['city']) : null;
-    var cod = json['cod'];
-    var message = json['message'];
-    var cnt = json['cnt'];
-    var lista = <Lista>[];
-    if (json['lista'] != null) {
-      json['lista'].forEach((v) {
-        lista.add(new Lista.fromJson(v));
+    City? city1 = json['city'] != null ? new City.fromJson(json['city']) : null;
+    String? cod1 = json['cod'];
+    double? message1 = json['message'];
+    int? cnt1 = json['cnt'];
+    List<Lista> list1 = <Lista>[];
+    if (json['list'] != null) {
+      json['list'].forEach((v) {
+        Lista lista = Lista.fromJson(v);
+        list1.add(lista);
       });
     }
-    return WeatherForecast(city: city, cod: cod, message: message, cnt: cnt, lista: lista);
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.city != null) {
-      data['city'] = this.city!.toJson();
-    }
-    data['cod'] = this.cod;
-    data['message'] = this.message;
-    data['cnt'] = this.cnt;
-    if (this.lista != null) {
-      data['lista'] = this.lista!.map((v) => v.toJson()).toList();
-    }
-    return data;
+    WeatherForecast weatherForecast = WeatherForecast(
+        city: city1, cod: cod1, message: message1, cnt: cnt1, list: list1);
+    // print("############################################################");
+    // print(weatherForecast.list![0].temp?.min);
+    // print("############################################################");
+    return weatherForecast;
   }
 }
 
@@ -44,34 +36,19 @@ class City {
   int? population;
   int? timezone;
 
-  City(
-      {this.id,
-      this.name,
-      this.coord,
-      this.country,
-      this.population,
-      this.timezone});
+  City(this.id, this.name, this.coord, this.country, this.population,
+      this.timezone);
 
-  City.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    coord = json['coord'] != null ? new Coord.fromJson(json['coord']) : null;
-    country = json['country'];
-    population = json['population'];
-    timezone = json['timezone'];
-  }
+  factory City.fromJson(Map<String, dynamic> json) {
+    var id = json['id'];
+    var name = json['name'];
+    var coord =
+        json['coord'] != null ? new Coord.fromJson(json['coord']) : null;
+    var country = json['country'];
+    var population = json['population'];
+    var timezone = json['timezone'];
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    if (this.coord != null) {
-      data['coord'] = this.coord!.toJson();
-    }
-    data['country'] = this.country;
-    data['population'] = this.population;
-    data['timezone'] = this.timezone;
-    return data;
+    return City(id, name, coord, country, population, timezone);
   }
 }
 
@@ -79,18 +56,13 @@ class Coord {
   double? lon;
   double? lat;
 
-  Coord({this.lon, this.lat});
+  Coord(this.lon, this.lat);
 
-  Coord.fromJson(Map<String, dynamic> json) {
-    lon = json['lon'];
-    lat = json['lat'];
-  }
+  factory Coord.fromJson(Map<String, dynamic> json) {
+    var lon = json['lon'];
+    var lat = json['lat'];
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['lon'] = this.lon;
-    data['lat'] = this.lat;
-    return data;
+    return Coord(lon, lat);
   }
 }
 
@@ -111,7 +83,7 @@ class Lista {
   double? rain;
 
   Lista(
-      {this.dt,
+      this.dt,
       this.sunrise,
       this.sunset,
       this.temp,
@@ -124,55 +96,33 @@ class Lista {
       this.gust,
       this.clouds,
       this.pop,
-      this.rain});
+      this.rain);
 
-  Lista.fromJson(Map<String, dynamic> json) {
-    dt = json['dt'];
-    sunrise = json['sunrise'];
-    sunset = json['sunset'];
-    temp = json['temp'] != null ? new Temp.fromJson(json['temp']) : null;
-    feelsLike = json['feels_like'] != null
+  factory Lista.fromJson(Map<String, dynamic> json) {
+    var dt = json['dt'];
+    var sunrise = json['sunrise'];
+    var sunset = json['sunset'];
+    var temp = json['temp'] != null ? new Temp.fromJson(json['temp']) : null;
+    var feelsLike = json['feels_like'] != null
         ? new FeelsLike.fromJson(json['feels_like'])
         : null;
-    pressure = json['pressure'];
-    humidity = json['humidity'];
+    var pressure = json['pressure'];
+    var humidity = json['humidity'];
+    var weather = <Weather>[];
     if (json['weather'] != null) {
-      weather = <Weather>[];
       json['weather'].forEach((v) {
-        weather!.add(new Weather.fromJson(v));
+        weather.add(new Weather.fromJson(v));
       });
     }
-    speed = json['speed'];
-    deg = json['deg'];
-    gust = json['gust'];
-    clouds = json['clouds'];
-    pop = json['pop'];
-    rain = json['rain'];
-  }
+    var speed = json['speed'];
+    var deg = json['deg'];
+    var gust = json['gust'].toDouble();
+    var clouds = json['clouds'];
+    var pop = json['pop'].toDouble();
+    var rain = json['rain'];
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['dt'] = this.dt;
-    data['sunrise'] = this.sunrise;
-    data['sunset'] = this.sunset;
-    if (this.temp != null) {
-      data['temp'] = this.temp!.toJson();
-    }
-    if (this.feelsLike != null) {
-      data['feels_like'] = this.feelsLike!.toJson();
-    }
-    data['pressure'] = this.pressure;
-    data['humidity'] = this.humidity;
-    if (this.weather != null) {
-      data['weather'] = this.weather!.map((v) => v.toJson()).toList();
-    }
-    data['speed'] = this.speed;
-    data['deg'] = this.deg;
-    data['gust'] = this.gust;
-    data['clouds'] = this.clouds;
-    data['pop'] = this.pop;
-    data['rain'] = this.rain;
-    return data;
+    return Lista(dt, sunrise, sunset, temp, feelsLike, pressure, humidity,
+        weather, speed, deg, gust, clouds, pop, rain);
   }
 }
 
@@ -184,26 +134,17 @@ class Temp {
   double? eve;
   double? morn;
 
-  Temp({this.day, this.min, this.max, this.night, this.eve, this.morn});
+  Temp(this.day, this.min, this.max, this.night, this.eve, this.morn);
 
-  Temp.fromJson(Map<String, dynamic> json) {
-    day = json['day'];
-    min = json['min'];
-    max = json['max'];
-    night = json['night'];
-    eve = json['eve'];
-    morn = json['morn'];
-  }
+  factory Temp.fromJson(Map<String, dynamic> json) {
+    var day = json['day'].toDouble();
+    var min = json['min'].toDouble();
+    var max = json['max'].toDouble();
+    var night = json['night'].toDouble();
+    var eve = json['eve'].toDouble();
+    var morn = json['morn'].toDouble();
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['day'] = this.day;
-    data['min'] = this.min;
-    data['max'] = this.max;
-    data['night'] = this.night;
-    data['eve'] = this.eve;
-    data['morn'] = this.morn;
-    return data;
+    return Temp(day, min, max, night, eve, morn);
   }
 }
 
@@ -213,22 +154,15 @@ class FeelsLike {
   double? eve;
   double? morn;
 
-  FeelsLike({this.day, this.night, this.eve, this.morn});
+  FeelsLike(this.day, this.night, this.eve, this.morn);
 
-  FeelsLike.fromJson(Map<String, dynamic> json) {
-    day = json['day'];
-    night = json['night'];
-    eve = json['eve'];
-    morn = json['morn'];
-  }
+  factory FeelsLike.fromJson(Map<String, dynamic> json) {
+    var day = json['day'].toDouble();
+    var night = json['night'].toDouble();
+    var eve = json['eve'].toDouble();
+    var morn = json['morn'].toDouble();
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['day'] = this.day;
-    data['night'] = this.night;
-    data['eve'] = this.eve;
-    data['morn'] = this.morn;
-    return data;
+    return FeelsLike(day, night, eve, morn);
   }
 }
 
@@ -238,21 +172,14 @@ class Weather {
   String? description;
   String? icon;
 
-  Weather({this.id, this.main, this.description, this.icon});
+  Weather(this.id, this.main, this.description, this.icon);
 
-  Weather.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    main = json['main'];
-    description = json['description'];
-    icon = json['icon'];
-  }
+  factory Weather.fromJson(Map<String, dynamic> json) {
+    var id = json['id'];
+    var main = json['main'];
+    var description = json['description'];
+    var icon = json['icon'];
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['main'] = this.main;
-    data['description'] = this.description;
-    data['icon'] = this.icon;
-    return data;
+    return Weather(id, main, description, icon);
   }
 }
