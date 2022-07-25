@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/bloc/weather_bloc.dart';
 import 'package:weather_app/bloc/weather_event.dart';
 import 'package:weather_app/bloc/weather_state.dart';
@@ -61,7 +62,8 @@ class Feed extends StatelessWidget {
                                 fontWeight: FontWeight.bold, fontSize: 23.4),
                           ),
                           Text(
-                            "Saturday, Dec 14, 2021", //TODO: current date
+                            getFormattedDate(state.weatherForecast.list![0]
+                                .dt), //done?: current date
                             style: TextStyle(fontSize: 20.4),
                           )
                         ],
@@ -71,7 +73,11 @@ class Feed extends StatelessWidget {
                       ),
                       Column(children: [
                         Icon(
-                          Icons.cloud, //TODO: change cloudsbased on status
+                          getCloudIcon(state
+                              .weatherForecast
+                              .list![0]
+                              .weather![0]
+                              .main), //done??: change cloudsbased on status  weather[0]??
                           color: Colors.pink[400],
                           size: 250,
                         ),
@@ -86,7 +92,8 @@ class Feed extends StatelessWidget {
                             SizedBox(
                               width: 10,
                             ),
-                            Text("FEW CLOUDS") //TODO: cloud status
+                            Text(
+                                "${state.weatherForecast.list![0].weather![0].description}")
                           ],
                         )
                       ]),
@@ -176,8 +183,10 @@ class Feed extends StatelessWidget {
                                             child: Padding(
                                               padding: const EdgeInsets.only(
                                                   top: 5.0),
-                                              child: Text(
-                                                  "Saturday"), // TODO: 7 days
+                                              child: Text(getDay(state
+                                                  .weatherForecast
+                                                  .list![index]
+                                                  .dt)), // done?: 7 days
                                             )),
                                         Align(
                                           alignment: Alignment.centerLeft,
@@ -190,9 +199,13 @@ class Feed extends StatelessWidget {
                                                     BorderRadius.circular(40)),
                                             child: Center(
                                               child: Icon(
-                                                Icons.cloud,
+                                                getCloudIcon(state
+                                                    .weatherForecast
+                                                    .list![index]
+                                                    .weather![0]
+                                                    .main),
                                                 color: Colors.pink[
-                                                    300], //TODO: cloud of the day
+                                                    300], //done??: cloud of the day  weather[0]??
                                               ),
                                             ),
                                           ),
@@ -287,5 +300,27 @@ class Feed extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getDay(dt) {
+    dt = dt * 1000;
+    return DateFormat.E().format(dt);
+  }
+
+  String getFormattedDate(dt) {
+    dt *= 1000;
+    return DateFormat('EEE, MMM d, yyyy').format(dt);
+  }
+
+  getCloudIcon(String? main) {
+    if (main == "clear") {
+      return Icons.sunny;
+    } else if (main == "rain") {
+      return Icons.cloudy_snowing;
+    } else if (main == "snow") {
+      return Icons.snowing;
+    } else {
+      return Icons.cloud;
+    }
   }
 }
