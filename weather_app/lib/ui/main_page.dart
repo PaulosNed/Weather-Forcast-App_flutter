@@ -62,8 +62,10 @@ class Feed extends StatelessWidget {
                                 fontWeight: FontWeight.bold, fontSize: 23.4),
                           ),
                           Text(
-                            getFormattedDate(state.weatherForecast.list![0]
-                                .dt), //done?: current date
+                            getFormattedDate(
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    state.weatherForecast.list![0].dt *
+                                        1000)), //don?: current date
                             style: TextStyle(fontSize: 20.4),
                           )
                         ],
@@ -73,11 +75,8 @@ class Feed extends StatelessWidget {
                       ),
                       Column(children: [
                         Icon(
-                          getCloudIcon(state
-                              .weatherForecast
-                              .list![0]
-                              .weather![0]
-                              .main), //done??: change cloudsbased on status  weather[0]??
+                          getCloudIcon(
+                              state.weatherForecast.list![0].weather![0].main),
                           color: Colors.pink[400],
                           size: 250,
                         ),
@@ -183,10 +182,11 @@ class Feed extends StatelessWidget {
                                             child: Padding(
                                               padding: const EdgeInsets.only(
                                                   top: 5.0),
-                                              child: Text(getDay(state
-                                                  .weatherForecast
-                                                  .list![index]
-                                                  .dt)), // done?: 7 days
+                                              child: Text(getDay(DateTime
+                                                  .fromMillisecondsSinceEpoch(
+                                                      state.weatherForecast
+                                                              .list![index].dt *
+                                                          1000))), // don?: 7 days
                                             )),
                                         Align(
                                           alignment: Alignment.centerLeft,
@@ -204,8 +204,7 @@ class Feed extends StatelessWidget {
                                                     .list![index]
                                                     .weather![0]
                                                     .main),
-                                                color: Colors.pink[
-                                                    300], //done??: cloud of the day  weather[0]??
+                                                color: Colors.pink[300],
                                               ),
                                             ),
                                           ),
@@ -302,22 +301,21 @@ class Feed extends StatelessWidget {
     );
   }
 
-  String getDay(dt) {
-    dt = dt * 1000;
-    return DateFormat.E().format(dt);
+  String getDay(DateTime dt) {
+    // dt = dt * 1000;
+    return DateFormat('EEEE').format(dt);
   }
 
   String getFormattedDate(dt) {
-    dt *= 1000;
-    return DateFormat('EEE, MMM d, yyyy').format(dt);
+    return DateFormat('EEEE, MMM d, yyyy').format(dt);
   }
 
   getCloudIcon(String? main) {
-    if (main == "clear") {
+    if (main == "Clear") {
       return Icons.sunny;
-    } else if (main == "rain") {
+    } else if (main == "Rain") {
       return Icons.cloudy_snowing;
-    } else if (main == "snow") {
+    } else if (main == "Snow") {
       return Icons.snowing;
     } else {
       return Icons.cloud;

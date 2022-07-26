@@ -67,7 +67,7 @@ class Coord {
 }
 
 class Lista {
-  int? dt;
+  int dt;
   int? sunrise;
   int? sunset;
   Temp? temp;
@@ -114,7 +114,7 @@ class Lista {
         weather.add(new Weather.fromJson(v));
       });
     }
-    var speed = json['speed'];
+    var speed = json['speed'].toDouble();
     var deg = json['deg'];
     var gust = json['gust'].toDouble();
     var clouds = json['clouds'];
