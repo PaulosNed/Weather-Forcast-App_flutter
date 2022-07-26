@@ -80,6 +80,7 @@ class Feed extends StatelessWidget {
                           color: Colors.pink[400],
                           size: 250,
                         ),
+                        SizedBox(height: 15),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
